@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+
+    h1,
+    h2,
+    h3,
+    h4 {
+        @apply font-bold;
+    }
+
+    h1 {
+        @apply text-4xl
+    }
+
+    h2 {
+        @apply text-3xl
+    }
+
+    h3 {
+        @apply text-2xl
+    }
+
+    h4 {
+        @apply text-xl
+    }
+
+    p {
+        @apply text-sm
+    }
+
+    input {
+        @apply rounded-md h-9 outline-none px-4 shadow-md border-gray-400 border-2
+    }
+
+    label {
+        @apply font-medium tracking-wide
+    }
+
+    button[type="submit"] {
+        @apply text-xl font-semibold shadow-md bg-blue-300 py-1 
+        tracking-wide border-gray-400 border-2 rounded-md hover:bg-blue-400 transition-all
+    }
+}
