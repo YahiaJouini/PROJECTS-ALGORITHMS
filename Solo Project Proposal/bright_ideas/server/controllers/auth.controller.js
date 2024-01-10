@@ -33,6 +33,6 @@ module.exports.sign_up = async (req, res) => {
 
     } catch (err) {
         const errors = HandleErrors(err)
-        return res.status(400).json({ errors })
+        res.json(errors)
     }
 }

@@ -7,6 +7,7 @@ const Login = () => {
         password: ""
     }
     const [login, setLogin] = useState(LoginData)
+    const [error, setError] = useState({ email: "", password: "" })
 
     const HandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value
@@ -14,12 +15,27 @@ const Login = () => {
         setLogin(prev => ({ ...prev, [name]: value }))
     }
 
+    const HandleErrorDisplay = () => {
+
+        if (error.password && !error.email) {
+            return (
+                error.password
+            )
+        }
+        return (
+            error.email
+        )
+    }
+
     const HandleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         try {
-            const res = await axios.post('http://localhost:5000/api/signup', login,{withCredentials:true})
-            console.log(res)
-            console.log("user added to the database")
+            const res: any = await axios.post('http://localhost:5000/api/signup', login, { withCredentials: true })
+            setError({ email: "", password: "" })
+
+            if (res.status !== 201) {
+                setError(prev => ({ ...prev, ["email"]: res.data.email, ['password']: res.data.password }))
+            }
         } catch (err) {
             console.log(err)
         }
@@ -56,8 +72,17 @@ const Login = () => {
                     />
 
                 </div>
+
                 <button type="submit" className="w-full mt-6 ">Login</button>
+
             </form>
+
+            <div className="my-2 h-[35px] p-2">
+                <h4 className="text-red-400 text-center ">
+                    {HandleErrorDisplay()}
+                </h4>
+
+            </div>
 
         </div>
 
