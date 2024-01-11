@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useLogin } from "../hooks/useLogin"
 
+
 const Login = () => {
 
 
@@ -15,26 +16,26 @@ const Login = () => {
 
 
 
+
+
     const HandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
         const value = e.target.value
         const name = e.target.name
         setLogin(prev => ({ ...prev, [name]: value }))
+
     }
 
     const HandleErrorDisplay = () => {
+
         if (error.fieldError) {
-
             return error.fieldError
-
         } else {
+
             if (error.passwordError && !error.emailError) {
-
                 return error.passwordError
-
             } else {
-
                 return error.emailError
-
             }
         }
 

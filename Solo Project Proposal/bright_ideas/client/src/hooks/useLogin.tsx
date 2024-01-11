@@ -1,12 +1,15 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import axios from "axios";
-import { AuthContext } from "../useContext/AuthContext";
+import { useAuthContext } from "./useAuthContext"
+import { useNavigate } from "react-router-dom"
 
 export const useLogin = () => {
 
 
     const [error, setError] = useState({ emailError: "", passwordError: "", fieldError: "" })
-    const provider = useContext(AuthContext)
+
+    const provider = useAuthContext()
+    const navigate = useNavigate()
 
     const Login = async (LoginEmail: string, LoginPassword: string) => {
 
@@ -23,6 +26,8 @@ export const useLogin = () => {
                 //updating the authentication context
                 provider?.setUser(res.data)
                 console.log(provider)
+
+                navigate('/bright_ideas')
 
             }
 

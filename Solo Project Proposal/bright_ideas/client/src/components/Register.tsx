@@ -1,6 +1,5 @@
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
-import axios from "axios"
+import { useRegister } from "../hooks/useRegister"
 
 
 const Register = () => {
@@ -15,9 +14,8 @@ const Register = () => {
 
 
     const [login, setLogin] = useState(RegisterData)
-    const [error, setError] = useState({ nameError: '', userNameError: '', emailError: '', passwordError: '' })
 
-    const navigate = useNavigate()
+    const { register, error } = useRegister()
 
 
     const HandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,24 +27,8 @@ const Register = () => {
 
     const HandleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        try {
-            const res: any = await axios.post('http://localhost:5000/api/register', login, { withCredentials: true })
-            setError({ nameError: '', userNameError: '', emailError: "", passwordError: "" })
+        await register(login.name, login.username, login.email, login.password)
 
-            if (res.status !== 201) {
-                setError(prev => ({
-                    ...prev, ["emailError"]: res.data.email,
-                    ['passwordError']: res.data.password,
-                    ['userNameError']: res.data.username,
-                    ['nameError']: res.data.name
-
-                }))
-            } else {
-                navigate('/bright_ideas')
-            }
-        } catch (err) {
-            console.log("There was an error")
-        }
     }
     return (
         <div className="w-[40%] shadow-xl bg-white p-10 rounded-lg ">

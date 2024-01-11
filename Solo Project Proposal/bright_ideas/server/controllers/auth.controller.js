@@ -42,7 +42,7 @@ module.exports.register = async (req, res) => {
     try {
         const user = await User.create({ name, username, email, password })
         const token = CreateToken(user._id)
-        res.status(201).json({ email: user.email, token: token })
+        res.status(201).json({ username: user.username, token: token })
 
     } catch (err) {
         const errors = HandleErrors(err)
@@ -56,7 +56,7 @@ module.exports.loginUser = async (req, res) => {
 
         const user = await User.login(LoginEmail, LoginPassword)
         const token = CreateToken(user._id)
-        res.status(201).json({ email: user.email, token: token })
+        res.status(201).json({ username: user.username, token: token })
 
 
     } catch (err) {

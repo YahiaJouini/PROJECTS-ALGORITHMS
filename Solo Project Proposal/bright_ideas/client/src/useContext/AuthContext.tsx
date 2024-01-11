@@ -1,7 +1,8 @@
 import { createContext, useState } from "react"
+import { useEffect } from "react"
 
 export type userType = {
-    email: string
+    username: string
     token: string
 }
 
@@ -18,6 +19,11 @@ export const AuthContext = createContext<AuthContextType | null>(null)
 export const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
 
     const [user, setUser] = useState<null | userType>(null)
+
+    useEffect(() => {
+        const temp = JSON.parse(localStorage.getItem('user') ?? 'null')
+        if (temp) setUser(temp)
+    }, [])
 
     return (
         <AuthContext.Provider value={{ user, setUser }}>
