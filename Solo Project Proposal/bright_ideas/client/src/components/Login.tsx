@@ -34,8 +34,12 @@ const Login = () => {
             }
             else {
                 const res: any = await axios.post('http://localhost:5000/api/loginUser', login, { withCredentials: true })
-                console.log(res.data)
-                setError({ emailError: "", passwordError: "" })
+                if (res.status !== 201) {
+                    setError({ emailError: res.data.email, passwordError: res.data.password })
+                } else {
+                    console.log(res.data)
+                    setError({ emailError: "", passwordError: "" })
+                }
             }
 
         } catch (err) {
