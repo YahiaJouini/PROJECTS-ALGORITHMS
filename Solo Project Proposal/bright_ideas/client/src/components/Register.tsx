@@ -14,12 +14,11 @@ const Register = () => {
         const value = e.target.value
         const name = e.target.name
         setLogin(prev => ({ ...prev, [name]: value }))
-        console.log(name)
     }
     const HandleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         try {
-            const res: any = await axios.post('http://localhost:5000/api/signup', login, { withCredentials: true })
+            const res: any = await axios.post('http://localhost:5000/api/register', login, { withCredentials: true })
             setError({ nameError: '', userNameError: '', emailError: "", passwordError: "" })
 
             if (res.status !== 201) {

@@ -25,6 +25,22 @@ const Login = () => {
 
     const HandleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        try {
+            if (login.LoginPassword.length <= 2) {
+                setError(prev => ({
+                    ...prev, ["emailError"]: "",
+                    ['passwordError']: "Password must be at least 6 characters long",
+                }))
+            }
+            else {
+                const res: any = await axios.post('http://localhost:5000/api/loginUser', login, { withCredentials: true })
+                console.log(res.data)
+                setError({ emailError: "", passwordError: "" })
+            }
+
+        } catch (err) {
+            console.log("The was an error")
+        }
     }
 
     return (
@@ -62,7 +78,7 @@ const Login = () => {
             </form>
 
             <div className="my-2 h-[35px] p-2">
-                <h4 className="text-red-400 text-center ">
+                <h4 className="text-red-400 h-[20px] text-[16px] tracking-wide font-semibold text-center">
                     {HandleErrorDisplay()}
                 </h4>
 

@@ -21,11 +21,11 @@ const CreateToken = (id) => {
 }
 
 
-module.exports.sign_up = async (req, res) => {
-    const { name,username,email, password } = req.body
+module.exports.register = async (req, res) => {
+    const { name, username, email, password } = req.body
 
     try {
-        const user = await User.create({ name,username,email, password })
+        const user = await User.create({ name, username, email, password })
         const token = CreateToken(user._id)
         res.cookie('jwt', token, { httpOnly: true, maxAge: 3 * 24 * 360 * 1000 })
         res.status(201).json({ user: user._id })
@@ -34,4 +34,15 @@ module.exports.sign_up = async (req, res) => {
         const errors = HandleErrors(err)
         res.json(errors)
     }
+}
+
+module.exports.loginUser = async (req, res) => {
+    const { LoginEmail, LoginPassword } = req.body
+    try {
+        const user = await User.login(LoginEmail, LoginPassword)
+        res.status(200).json({ user: user._id })
+    } catch (err) {
+        res.json({})
+    }
+
 }

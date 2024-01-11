@@ -4,12 +4,12 @@ const bcrypt = require('bcrypt')
 
 const userSchema = new mongoose.Schema({
     name: {
-        type:String,
-        required : [true,'The name is required']
+        type: String,
+        required: [true, 'The name is required']
     },
-    username : {
-        type:String,
-        required : [true,'The userName is required']
+    username: {
+        type: String,
+        required: [true, 'The userName is required']
     },
     email: {
         type: String,
@@ -34,4 +34,17 @@ userSchema.pre('save', async function (next) {
     next()
 })
 
+
+userSchema.statics.login = async function (email, password) {
+
+    const user = await this.findOne({ email: email }) // this refers to the Called (User in our case)
+    if (user) {
+        const auth = await bcrypt.compare(password, user.password)
+        if (auth) {
+            return user
+        }
+        throw new Error("The password is incorrect")
+    }
+    throw new Error('The email is incorrect')
+}
 module.exports = mongoose.model('user', userSchema)
