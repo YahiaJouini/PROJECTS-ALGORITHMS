@@ -37,6 +37,10 @@ userSchema.pre('save', async function (next) {
 
 userSchema.statics.login = async function (email, password) {
 
+    if(!email || !password) {
+        throw new Error('All fields must be filled')
+    }
+
     const user = await this.findOne({ email: email }) // this refers to the Called (User in our case)
     if (user) {
         const auth = await bcrypt.compare(password, user.password)

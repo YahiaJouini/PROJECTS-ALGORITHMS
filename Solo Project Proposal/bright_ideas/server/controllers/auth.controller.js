@@ -2,14 +2,16 @@ const User = require('../models/user.model')
 const jwt = require('jsonwebtoken')
 
 const HandleErrors = (err) => {
-    let errors = { email: "", password: "" }
+    let errors = { email: "", password: "", fields: "" }
+
+    if (err.message === "All fields must be filled") {
+        errors.fields = err.message
+    }
 
     //already existing email (in registering)
     if (err.code === 11000) {
         errors.email = "That email is already registered"
-        return errors
     }
-
     // incorrect email 
     if (err.message === "The email is incorrect") {
         errors.email = err.message
@@ -19,7 +21,7 @@ const HandleErrors = (err) => {
     if (err.message === "The password is incorrect") {
         errors.password = err.message
     }
-    
+
     if (err.message.includes('user validation failed')) {
         Object.values(err.errors).forEach(error => {
             errors[error.properties.path] = error.properties.message
@@ -30,7 +32,7 @@ const HandleErrors = (err) => {
 
 
 const CreateToken = (id) => {
-    return jwt.sign({ id }, process.env.jwtSecret, { expiresIn: 3 * 24 * 360 })
+    return jwt.sign({ id }, process.env.jwtSecret, { expiresIn: '3d' })
 }
 
 
@@ -40,8 +42,7 @@ module.exports.register = async (req, res) => {
     try {
         const user = await User.create({ name, username, email, password })
         const token = CreateToken(user._id)
-        res.cookie('jwt', token, { httpOnly: true, maxAge: 3 * 24 * 360 * 1000 })
-        res.status(201).json({ user: user._id })
+        res.status(201).json({ email: user.email, token: token })
 
     } catch (err) {
         const errors = HandleErrors(err)
@@ -55,12 +56,11 @@ module.exports.loginUser = async (req, res) => {
 
         const user = await User.login(LoginEmail, LoginPassword)
         const token = CreateToken(user._id)
-        res.cookie('jwt', token, { httpOnly: true, maxAge: 3 * 24 * 360 * 1000 })
-        res.status(201).json({ user: user._id })
+        res.status(201).json({ email: user.email, token: token })
+
 
     } catch (err) {
         const errors = HandleErrors(err)
-        console.log(errors)
         res.json(errors)
     }
 

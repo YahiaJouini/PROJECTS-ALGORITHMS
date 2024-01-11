@@ -1,13 +1,19 @@
 import { useState } from "react"
-import axios from "axios"
+import { useLogin } from "../hooks/useLogin"
 
 const Login = () => {
+
+
     const LoginData = {
         LoginEmail: "",
         LoginPassword: ""
     }
+
     const [login, setLogin] = useState(LoginData)
-    const [error, setError] = useState({ emailError: "", passwordError: "" })
+    const { Login, error } = useLogin()
+
+
+
 
     const HandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value
@@ -16,35 +22,30 @@ const Login = () => {
     }
 
     const HandleErrorDisplay = () => {
+        if (error.fieldError) {
 
-        if (error.passwordError && !error.emailError) {
-            return error.passwordError
+            return error.fieldError
+
+        } else {
+            if (error.passwordError && !error.emailError) {
+
+                return error.passwordError
+
+            } else {
+
+                return error.emailError
+
+            }
         }
-        return error.emailError
+
+
     }
 
     const HandleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        try {
-            if (login.LoginPassword.length <= 2) {
-                setError(prev => ({
-                    ...prev, ["emailError"]: "",
-                    ['passwordError']: "Password must be at least 6 characters long",
-                }))
-            }
-            else {
-                const res: any = await axios.post('http://localhost:5000/api/loginUser', login, { withCredentials: true })
-                if (res.status !== 201) {
-                    setError({ emailError: res.data.email, passwordError: res.data.password })
-                } else {
-                    console.log(res.data)
-                    setError({ emailError: "", passwordError: "" })
-                }
-            }
 
-        } catch (err) {
-            console.log("The was an error")
-        }
+        e.preventDefault()
+        await Login(login.LoginEmail, login.LoginPassword)
+
     }
 
     return (
@@ -77,7 +78,7 @@ const Login = () => {
 
                 </div>
 
-                <button type="submit" className="w-full mt-6 ">Login</button>
+                <button type="submit" className="w-full mt-6 disabled:bg-red-100">Login</button>
 
             </form>
 

@@ -1,20 +1,32 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import axios from "axios"
+
+
 const Register = () => {
+
+
     const RegisterData = {
         name: "",
         username: "",
         email: "",
         password: ""
     }
+
+
     const [login, setLogin] = useState(RegisterData)
     const [error, setError] = useState({ nameError: '', userNameError: '', emailError: '', passwordError: '' })
+
+    const navigate = useNavigate()
+
 
     const HandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value
         const name = e.target.name
         setLogin(prev => ({ ...prev, [name]: value }))
     }
+
+
     const HandleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         try {
@@ -29,9 +41,8 @@ const Register = () => {
                     ['nameError']: res.data.name
 
                 }))
-                console.log(res)
             } else {
-                setLogin({ name: '', username: '', email: '', password: '' })
+                navigate('/bright_ideas')
             }
         } catch (err) {
             console.log("There was an error")
