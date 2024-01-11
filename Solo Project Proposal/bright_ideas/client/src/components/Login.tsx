@@ -3,11 +3,11 @@ import axios from "axios"
 
 const Login = () => {
     const LoginData = {
-        email: "",
-        password: ""
+        LoginEmail: "",
+        LoginPassword: ""
     }
     const [login, setLogin] = useState(LoginData)
-    const [error, setError] = useState({ email: "", password: "" })
+    const [error, setError] = useState({ emailError: "", passwordError: "" })
 
     const HandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value
@@ -17,28 +17,14 @@ const Login = () => {
 
     const HandleErrorDisplay = () => {
 
-        if (error.password && !error.email) {
-            return (
-                error.password
-            )
+        if (error.passwordError && !error.emailError) {
+            return error.passwordError
         }
-        return (
-            error.email
-        )
+        return error.emailError
     }
 
     const HandleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        try {
-            const res: any = await axios.post('http://localhost:5000/api/signup', login, { withCredentials: true })
-            setError({ email: "", password: "" })
-
-            if (res.status !== 201) {
-                setError(prev => ({ ...prev, ["email"]: res.data.email, ['password']: res.data.password }))
-            }
-        } catch (err) {
-            console.log(err)
-        }
     }
 
     return (
@@ -50,25 +36,23 @@ const Login = () => {
 
                 <div className="flex flex-col gap-2 mb-4">
 
-                    <label htmlFor="email">Email</label>
+                    <label htmlFor="LoginEmail">Email</label>
                     <input type="email"
-                        id="email"
-                        value={login.email}
+                        id="LoginEmail"
+                        value={login.LoginEmail}
                         onChange={HandleChange}
-                        name='email'
-
+                        name='LoginEmail'
                     />
-
                 </div>
 
                 <div className="flex flex-col gap-2 mb-4">
 
-                    <label htmlFor="password">Password</label>
+                    <label htmlFor="LoginPassword">Password</label>
                     <input type="password"
-                        id="password"
-                        value={login.password}
+                        id="LoginPassword"
+                        value={login.LoginPassword}
                         onChange={HandleChange}
-                        name="password"
+                        name="LoginPassword"
                     />
 
                 </div>

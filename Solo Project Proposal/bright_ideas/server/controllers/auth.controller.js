@@ -2,7 +2,6 @@ const User = require('../models/user.model')
 const jwt = require('jsonwebtoken')
 
 const HandleErrors = (err) => {
-    console.log(err.message, err.code)
     let errors = { email: "", password: "" }
     if (err.code === 11000) {
         errors.email = "That email is already registered"
@@ -23,10 +22,10 @@ const CreateToken = (id) => {
 
 
 module.exports.sign_up = async (req, res) => {
-    const { email, password } = req.body
+    const { name,username,email, password } = req.body
 
     try {
-        const user = await User.create({ email, password })
+        const user = await User.create({ name,username,email, password })
         const token = CreateToken(user._id)
         res.cookie('jwt', token, { httpOnly: true, maxAge: 3 * 24 * 360 * 1000 })
         res.status(201).json({ user: user._id })

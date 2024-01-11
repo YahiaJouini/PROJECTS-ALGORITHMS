@@ -3,8 +3,8 @@ import Login from "../components/Login"
 const Home = () => {
     return (
         <div>
-            <h1>Welcome ! </h1>
-            <div className="flex w-full justify-between">
+            <h1 className="text-center text-gray-800 "> Bright Ideas ! </h1>
+            <div className="flex w-full justify-around mt-20 items-start">
                 
                 <Register />
                 <Login />
