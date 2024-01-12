@@ -37,7 +37,7 @@ userSchema.pre('save', async function (next) {
 
 userSchema.statics.login = async function (email, password) {
 
-    if(!email || !password) {
+    if (!email || !password) {
         throw new Error('All fields must be filled')
     }
 

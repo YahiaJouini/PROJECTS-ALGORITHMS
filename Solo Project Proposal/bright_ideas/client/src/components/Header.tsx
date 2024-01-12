@@ -1,29 +1,13 @@
 import { Link } from "react-router-dom"
 import { useLogout } from "../hooks/useLogout"
 import { useAuthContext } from "../hooks/useAuthContext"
+import { useNavigate } from "react-router-dom"
 const Header = () => {
 
     const provider = useAuthContext()
+    const navigate = useNavigate()
 
     const { logout } = useLogout()
-
-    const ButtonDisplay = () => {
-
-        if (!provider.user) {
-
-            return (
-                <Link to='/main' className="text-[18px] font-semibold tracking-wide">Login/Register</Link>
-            )
-        }
-        return (
-            <button
-                className="text-[20px] font-semibold tracking-wide"
-                onClick={() => logout()}
-            >
-                Logout
-            </button>
-        )
-    }
 
     return (
         <header className="">
@@ -32,7 +16,15 @@ const Header = () => {
                 <div className="w-[270px] flex justify-between ">
 
                     <Link to='#' className="text-[18px] font-semibold tracking-wide">Bright ideas</Link>
-                    {ButtonDisplay()}
+                    <button
+                        className="text-[20px] font-semibold tracking-wide"
+                        onClick={() => {
+                            logout()
+                            navigate('/main')
+                            
+                            }}>
+                        Logout
+                    </button>
 
                 </div>
             </nav>

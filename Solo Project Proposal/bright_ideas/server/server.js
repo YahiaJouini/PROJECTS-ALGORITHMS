@@ -17,8 +17,11 @@ app.use(express.json(),
             credentials: true // allowed to send credentials (cookies/tokens)
         }))
 
-const routes = require('./routes/auth.routes')
-routes(app)
+const authRoutes = require('./routes/auth.routes')
+authRoutes(app)
+
+const postRoutes = require('./routes/posts.routes')
+postRoutes(app)
 
 
 app.listen(PORT, () => console.log(`The server is running on port ${PORT}`))
