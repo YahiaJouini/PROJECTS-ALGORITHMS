@@ -1,7 +1,7 @@
 const post = require('../models/posts.model')
 
 module.exports.addPost = async (req, res) => {
-    const userId = req.user.id
+    const userId = req.id
     const likes = []
     const { content } = req.body
 

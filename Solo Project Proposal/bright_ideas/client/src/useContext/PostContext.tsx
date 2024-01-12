@@ -11,7 +11,7 @@ export type postType = {
 
 type PostContextType = {
     posts: postType | null
-    HandleSubmit: (token: string, content: string, likes: string[]) => void
+    HandleSubmit: (id: string, token: string, content: string, likes: string[]) => void
 }
 export const PostContext = createContext<PostContextType | null>(null)
 
@@ -20,9 +20,14 @@ export const PostContextProvider = ({ children }: { children: React.ReactNode })
     const [submitted, setSubmitted] = useState(0)
     const { fetch, data } = useFetch()
 
-    const HandleSubmit = async (token: string, content: string, likes: string[]) => {
+    const HandleSubmit = async (id: string, token: string, content: string, likes: string[]) => {
 
-        const req = { authorization: `Bearer ${token}`, content: content, likes }
+        const req = {
+            authorization: `Bearer ${token}`, 
+            content, 
+            likes,
+            id
+        }
         try {
             await axios.post('http://localhost:5000/api/addPost', req)
             setSubmitted(prev => prev += 1)

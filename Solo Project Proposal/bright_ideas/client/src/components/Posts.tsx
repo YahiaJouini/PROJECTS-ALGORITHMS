@@ -8,9 +8,9 @@ const Posts = () => {
 
   return (
     <>
-      {provider?.posts?.map(post =>
+      {provider?.posts?.map((post,idx) =>
       (
-        <Post userId={post.userId} content={post.content} date={post.createdAt} />)
+        <Post key={idx} userId={post.userId} content={post.content} date={post.createdAt} likes = {post.likes} />)
       )}
     </>
   )

@@ -13,7 +13,7 @@ const PostInput = ({ user }: { user: userType }) => {
     const HandleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const likes: string[] = []
-        provider?.HandleSubmit(user.token, content, likes)
+        provider?.HandleSubmit(user.id, user.token, content, likes)
         setContent('')
 
     }

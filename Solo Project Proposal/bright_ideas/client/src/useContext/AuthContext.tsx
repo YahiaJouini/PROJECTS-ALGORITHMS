@@ -1,7 +1,7 @@
 import { createContext, useState } from "react"
 
 export type userType = {
-    username: string
+    id: string
     token: string
 }
 

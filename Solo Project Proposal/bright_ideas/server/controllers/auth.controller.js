@@ -42,7 +42,7 @@ module.exports.register = async (req, res) => {
     try {
         const user = await User.create({ name, username, email, password })
         const token = CreateToken(user._id)
-        res.status(201).json({ username: user.username, token: token })
+        res.status(201).json({ id: user._id, token: token })
 
     } catch (err) {
         const errors = HandleErrors(err)
@@ -56,7 +56,7 @@ module.exports.loginUser = async (req, res) => {
 
         const user = await User.login(LoginEmail, LoginPassword)
         const token = CreateToken(user._id)
-        res.status(201).json({ username: user.username, token: token })
+        res.status(201).json({ id: user._id, token: token })
 
 
     } catch (err) {
@@ -64,4 +64,14 @@ module.exports.loginUser = async (req, res) => {
         res.json(errors)
     }
 
+}
+
+module.exports.getUser = async (req, res) => {
+    const { id } = req.params
+    try {
+        const user = await User.findById(id)
+        return res.status(200).json(user)
+    } catch (err) {
+        return res.status(400).json({ err: "User Not Found" })
+    }
 }
