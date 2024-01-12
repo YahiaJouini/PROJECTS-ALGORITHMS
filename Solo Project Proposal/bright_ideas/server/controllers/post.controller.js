@@ -1,10 +1,9 @@
 const post = require('../models/posts.model')
 
 module.exports.addPost = async (req, res) => {
-    const userId = req.user
+    const userId = req.user.id
     const likes = []
     const { content } = req.body
-    console.log(userId)
 
     try {
         const result = await post.create({ userId, content, likes })
@@ -15,12 +14,10 @@ module.exports.addPost = async (req, res) => {
 }
 
 module.exports.getPosts = async (req, res) => {
-    console.log(req.body)
     try {
         const posts = await post.find()
         res.status(200).json(posts)
     } catch (err) {
-        console.log('first')
         res.status(401).json(err)
     }
 }

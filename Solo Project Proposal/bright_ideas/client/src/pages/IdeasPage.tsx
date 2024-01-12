@@ -2,6 +2,7 @@ import PostInput from "../components/PostInput"
 import Header from "../components/Header"
 import Posts from "../components/Posts"
 import { useAuthContext } from "../hooks/useAuthContext"
+import { PostContextProvider } from "../useContext/PostContext"
 
 
 const IdeasPage = () => {
@@ -10,6 +11,7 @@ const IdeasPage = () => {
     if (provider.user) {
         return (
             <div>
+                <PostContextProvider>
                 <Header />
                 <div className=" w-[60%] mx-auto ">
                     <div className="mt-28 flex justify-center ">
@@ -20,6 +22,7 @@ const IdeasPage = () => {
                     </div>
 
                 </div>
+                </PostContextProvider>
             </div>
 
         )

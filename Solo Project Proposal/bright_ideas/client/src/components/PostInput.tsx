@@ -1,21 +1,21 @@
 import { useState } from "react"
 import { userType } from "../useContext/AuthContext"
-import axios from "axios"
+import { useContext } from "react"
+import { PostContext } from "../useContext/PostContext"
 
 const PostInput = ({ user }: { user: userType }) => {
+
+    const provider = useContext(PostContext)
 
 
     const [content, setContent] = useState('')
 
     const HandleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        const req = { authorization: `Bearer ${user.token}`, content: content, likes: [] }
-        try {
-            await axios.post('http://localhost:5000/api/addPost', req)
-            setContent('')
-        } catch (err) {
-            console.log(err)
-        }
+        const likes: string[] = []
+        provider?.HandleSubmit(user.token, content, likes)
+        setContent('')
+
     }
 
 
