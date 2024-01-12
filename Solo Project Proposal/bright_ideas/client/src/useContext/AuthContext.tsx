@@ -1,5 +1,4 @@
 import { createContext, useState } from "react"
-import { useEffect } from "react"
 
 export type userType = {
     username: string
@@ -11,19 +10,12 @@ type AuthContextType = {
     setUser: React.Dispatch<React.SetStateAction<userType | null>>
 }
 
-
 export const AuthContext = createContext<AuthContextType | null>(null)
-
-
 
 export const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
 
-    const [user, setUser] = useState<null | userType>(null)
-
-    useEffect(() => {
-        const temp = JSON.parse(localStorage.getItem('user') ?? 'null')
-        if (temp) setUser(temp)
-    }, [])
+    const initialData: userType = JSON.parse(localStorage.getItem('user') ?? 'null') || null
+    const [user, setUser] = useState<userType | null>(initialData)
 
     return (
         <AuthContext.Provider value={{ user, setUser }}>
