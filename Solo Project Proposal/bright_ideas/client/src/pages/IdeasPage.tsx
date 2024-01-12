@@ -1,41 +1,31 @@
 import PostInput from "../components/PostInput"
 import Header from "../components/Header"
 import Posts from "../components/Posts"
-
-
-import { useEffect } from "react"
 import { useAuthContext } from "../hooks/useAuthContext"
-import { useNavigate } from "react-router-dom"
 
 
 const IdeasPage = () => {
 
     const provider = useAuthContext()
-    const navigate = useNavigate()
-
-    useEffect(() => {
-        if (!provider.user) {
-            navigate('/main')
-        }
-    }, [])
-
-    return (
-        <div>
-            <Header />
-            <div className=" w-[60%] mx-auto ">
-                {provider.user && (
+    if (provider.user) {
+        return (
+            <div>
+                <Header />
+                <div className=" w-[60%] mx-auto ">
                     <div className="mt-28 flex justify-center ">
-                        <PostInput />
+                        <PostInput user={provider.user} />
                     </div>
-                )}
-                <div className="mt-20">
-                    <Posts />
+                    <div className="mt-20">
+                        <Posts/>
+                    </div>
+
                 </div>
-
             </div>
-        </div>
 
-    )
+        )
+    }
+
+
 }
 
 export default IdeasPage
