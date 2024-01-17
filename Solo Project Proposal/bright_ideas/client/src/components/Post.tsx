@@ -13,7 +13,6 @@ type postType = {
     likedPost?: Boolean
 }
 const Post = ({ postId, userId, content, date, likes, likedPost }: postType) => {
-    console.log(postId, likedPost)
 
     const { fetchById, data } = useFetchById()
     const authProvider = useAuthContext()
@@ -35,9 +34,18 @@ const Post = ({ postId, userId, content, date, likes, likedPost }: postType) => 
     }
 
     return (
-        <div className="w-[80%] mx-auto bg-white shadow-lg p-6 mb-4">
+        <div className="w-[80%] mx-auto bg-white shadow-lg p-6 mb-4 relative">
+            {userId === authProvider.user?.id && (
+                <button
+                    className="font-medium text-xl absolute top-0 right-0 bg-gray-200 h-[30px] w-[30px] flex justify-center items-center"
+                    onClick={()=>postProvider.HandleDelete(postId,authProvider.user?.token)}
+                    >
+                    X
+                </button>
+            )}
 
-            <Link to={`/user/${userId}`} className="text-blue-400 text-xl tracking-wide">{data?.name}</Link>
+
+            <Link to={`/user/${userId}`} className="text-blue-400 text-xl tracking-wide uppercase">{data?.name}</Link>
 
             <p className="font-medium my-3 tracking-wide text-[16px] line leading-6">{content}</p>
 

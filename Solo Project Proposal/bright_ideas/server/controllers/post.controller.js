@@ -48,3 +48,15 @@ module.exports.likePost = async (req, res) => {
         res.status(400).json(err)
     }
 }
+
+// deleting a post 
+
+module.exports.deletePost = async (req, res) => {
+    try {
+        await post.deleteOne({ _id: req.params.id })
+        res.json({ message: "post deleted" })
+    } catch (err) {
+        res.status(400).json(err)
+    }
+
+}

@@ -14,6 +14,7 @@ type PostContextType = {
     posts: postType[] | null
     HandleSubmit: (id: string, token: string, content: string, likes: string[]) => void
     HandleLike: (userId: string | undefined, postId: string, token: string | undefined) => void
+    HandleDelete: (postId: string, token: string | undefined) => void
 }
 export const PostContext = createContext<PostContextType | null>(null)
 
@@ -58,6 +59,20 @@ export const PostContextProvider = ({ children }: { children: React.ReactNode })
 
     }
 
+    const HandleDelete = async (postId: string, token: string | undefined) => {
+        console.log(token)
+        try {
+            await axios.delete(`http://localhost:5000/api/deletePost/${postId}`, {
+                params: {
+                    authorization: `Bearer ${token}`
+                }
+            })
+            fetch()
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
     useEffect(() => {
         fetch()
     }, [submitted])
@@ -65,7 +80,7 @@ export const PostContextProvider = ({ children }: { children: React.ReactNode })
     const posts = data
 
     return (
-        <PostContext.Provider value={{ posts, HandleSubmit, HandleLike }}>
+        <PostContext.Provider value={{ posts, HandleSubmit, HandleLike, HandleDelete }}>
             {children}
         </PostContext.Provider>
     )
