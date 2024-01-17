@@ -5,10 +5,10 @@ import axios from "axios";
 
 export const useFetch = () => {
     const provider = useAuthContext()
-    const [data, setData] = useState<postType | []>([])
+    const [data, setData] = useState<postType[] | []>([])
     const fetch = async () => {
         try {
-            const res: any = await axios.get('http://localhost:5000/app/getPosts',
+            const res: any = await axios.get('http://localhost:5000/api/getPosts',
                 {
                     params:
                         { authorization: `Bearer ${provider.user?.token}` }

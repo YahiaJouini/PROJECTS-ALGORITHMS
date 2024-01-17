@@ -3,28 +3,31 @@ import { useFetch } from "../hooks/useFetch"
 import axios from "axios"
 
 export type postType = {
+    _id: string
     userId: string
     content: string
-    likes: String[]
+    likes: string[]
     createdAt: string
-}[]
+}
 
 type PostContextType = {
-    posts: postType | null
+    posts: postType[] | null
     HandleSubmit: (id: string, token: string, content: string, likes: string[]) => void
+    HandleLike: (userId: string | undefined, postId: string, token: string | undefined) => void
 }
 export const PostContext = createContext<PostContextType | null>(null)
 
 export const PostContextProvider = ({ children }: { children: React.ReactNode }) => {
 
     const [submitted, setSubmitted] = useState(0)
+
     const { fetch, data } = useFetch()
 
     const HandleSubmit = async (id: string, token: string, content: string, likes: string[]) => {
 
         const req = {
-            authorization: `Bearer ${token}`, 
-            content, 
+            authorization: `Bearer ${token}`,
+            content,
             likes,
             id
         }
@@ -38,6 +41,23 @@ export const PostContextProvider = ({ children }: { children: React.ReactNode })
 
     }
 
+    const HandleLike = async (userId: string | undefined, postId: string, token: string | undefined) => {
+        if (token) {
+
+            try {
+                await axios.patch(`http://localhost:5000/api/LikePost/${postId}`, {
+                    authorization: `Bearer ${token}`,
+                    userId
+                })
+                fetch()
+            } catch (err) {
+                console.log(err)
+            }
+        }
+
+
+    }
+
     useEffect(() => {
         fetch()
     }, [submitted])
@@ -45,7 +65,7 @@ export const PostContextProvider = ({ children }: { children: React.ReactNode })
     const posts = data
 
     return (
-        <PostContext.Provider value={{ posts, HandleSubmit }}>
+        <PostContext.Provider value={{ posts, HandleSubmit, HandleLike }}>
             {children}
         </PostContext.Provider>
     )

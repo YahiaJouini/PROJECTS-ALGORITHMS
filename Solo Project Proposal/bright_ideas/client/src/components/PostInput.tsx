@@ -1,11 +1,10 @@
 import { useState } from "react"
 import { userType } from "../useContext/AuthContext"
-import { useContext } from "react"
-import { PostContext } from "../useContext/PostContext"
+import { usePostContext } from "../hooks/usePostContext"
 
 const PostInput = ({ user }: { user: userType }) => {
 
-    const provider = useContext(PostContext)
+    const provider = usePostContext()
 
 
     const [content, setContent] = useState('')

@@ -5,5 +5,6 @@ const requireAuth = require('../middleware/requireAuth')
 module.exports = (app) => {
     app.use(requireAuth)
     app.post('/api/addPost', postController.addPost)
-    app.get('/app/getPosts', postController.getPosts)
+    app.get('/api/getPosts', postController.getPosts)
+    app.patch('/api/LikePost/:id',postController.likePost)
 }

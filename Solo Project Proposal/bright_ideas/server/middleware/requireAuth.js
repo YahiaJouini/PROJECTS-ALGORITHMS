@@ -4,6 +4,7 @@ const User = require("../models/user.model")
 const requireAuth = async (req, res, next) => {
 
     const { authorization, id } = req.method === "GET" ? req.query : req.body
+
     if (!authorization) {
         return res.status(401).json({ error: "Authorization token required" })
     }
