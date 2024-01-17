@@ -12,16 +12,16 @@ const IdeasPage = () => {
         return (
             <div>
                 <PostContextProvider>
-                <Header />
-                <div className=" w-[60%] mx-auto ">
-                    <div className="mt-28 flex justify-center ">
-                        <PostInput user={provider.user} />
-                    </div>
-                    <div className="mt-20">
-                        <Posts/>
-                    </div>
+                    <Header display={true} />
+                    <div className=" w-[60%] mx-auto ">
+                        <div className="mt-28 flex justify-center ">
+                            <PostInput user={provider.user} />
+                        </div>
+                        <div className="mt-20">
+                            <Posts />
+                        </div>
 
-                </div>
+                    </div>
                 </PostContextProvider>
             </div>
 

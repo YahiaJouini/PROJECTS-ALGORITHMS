@@ -31,6 +31,7 @@ const Posts = () => {
           date={post.createdAt}
           likes={post.likes}
           likedPost={liked(post)}
+          display={true}
 
         />)
       )}

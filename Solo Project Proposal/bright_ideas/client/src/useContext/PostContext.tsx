@@ -2,6 +2,7 @@ import { createContext, useEffect, useState } from "react"
 import { useFetch } from "../hooks/useFetch"
 import axios from "axios"
 
+
 export type postType = {
     _id: string
     userId: string
@@ -22,7 +23,7 @@ export const PostContextProvider = ({ children }: { children: React.ReactNode })
 
     const [submitted, setSubmitted] = useState(0)
 
-    const { fetch, data } = useFetch()
+    const { fetch, postData } = useFetch()
 
     const HandleSubmit = async (id: string, token: string, content: string, likes: string[]) => {
 
@@ -60,7 +61,6 @@ export const PostContextProvider = ({ children }: { children: React.ReactNode })
     }
 
     const HandleDelete = async (postId: string, token: string | undefined) => {
-        console.log(token)
         try {
             await axios.delete(`http://localhost:5000/api/deletePost/${postId}`, {
                 params: {
@@ -77,7 +77,9 @@ export const PostContextProvider = ({ children }: { children: React.ReactNode })
         fetch()
     }, [submitted])
 
-    const posts = data
+    
+
+    const posts = postData
 
     return (
         <PostContext.Provider value={{ posts, HandleSubmit, HandleLike, HandleDelete }}>

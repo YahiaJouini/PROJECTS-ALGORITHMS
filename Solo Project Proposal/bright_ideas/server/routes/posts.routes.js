@@ -8,4 +8,5 @@ module.exports = (app) => {
     app.get('/api/getPosts', postController.getPosts)
     app.patch('/api/LikePost/:id',postController.likePost)
     app.delete('/api/deletePost/:id',postController.deletePost)
+    app.get('/api/getPost/:id',postController.getPost)
 }

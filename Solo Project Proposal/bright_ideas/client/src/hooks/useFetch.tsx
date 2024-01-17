@@ -5,7 +5,7 @@ import axios from "axios";
 
 export const useFetch = () => {
     const provider = useAuthContext()
-    const [data, setData] = useState<postType[] | []>([])
+    const [postData, setData] = useState<postType[] | []>([])
     const fetch = async () => {
         try {
             const res: any = await axios.get('http://localhost:5000/api/getPosts',
@@ -18,5 +18,5 @@ export const useFetch = () => {
             console.log(err)
         }
     }
-    return { fetch, data }
+    return { fetch, postData }
 }

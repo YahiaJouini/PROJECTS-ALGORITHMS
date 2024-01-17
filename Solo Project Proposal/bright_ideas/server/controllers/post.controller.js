@@ -54,9 +54,21 @@ module.exports.likePost = async (req, res) => {
 module.exports.deletePost = async (req, res) => {
     try {
         await post.deleteOne({ _id: req.params.id })
-        res.json({ message: "post deleted" })
+        res.status(200).json({ message: "post deleted" })
     } catch (err) {
         res.status(400).json(err)
     }
 
+}
+
+// get one post 
+
+module.exports.getPost = async (req, res) => {
+    try {
+        const result = await post.findOne({ _id: req.params.id })
+        res.status(200).json(result)
+    } catch (err) {
+
+        res.status(200).json(err)
+    }
 }
