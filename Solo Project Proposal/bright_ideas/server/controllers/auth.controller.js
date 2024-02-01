@@ -46,6 +46,7 @@ module.exports.register = async (req, res) => {
 
     } catch (err) {
         const errors = HandleErrors(err)
+        console.log(errors)
         res.json(errors)
     }
 }
